@@ -1,16 +1,19 @@
 // const express = require('express');
 import express from 'express';
 import bcrypt from 'bcrypt';
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 const database = {
     users: [
         {
             id: '123',
             name: 'John',
+            password: 'cookies',
             email: 'john@gmail.com',
             entries: 0,
             joined: new Date()
@@ -18,6 +21,7 @@ const database = {
         {
             id: '124',
             name: 'Sally',
+            password: 'bananas',
             email: 'sally@gmail.com',
             entries: 0,
             joined: new Date()
@@ -37,29 +41,34 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
-    bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+    let hash = bcrypt.hash(database.users[0].password, 10, function(err, hash) {
+        return(hash);
+    }); 
+    bcrypt.compare(req.body.password, hash, function(err, result) {
         // result == true
+        res.json('success logging in');
+        //if(err) {res.status(404).json('error logging in')}
+        //if(err) {console.log(err)}
     });
-
-    if(req.body.email === database.users[0].email &&
-        req.body.password === database.users[0].password) {
-        res.json('success');
-    } else {
-        res.status(404).json('error logging in')
-    }
+    // if(req.body.email === database.users[0].email &&
+    //     req.body.password === database.users[0].password) {
+    //     //res.json('success');
+    // } else {
+    //     res.status(404).json('error logging in')
+    // }
 })
 
 app.post('/register', (req, res) => {
     const { name, email, password } = req.body;
     const saltRounds = 10;
-    bcrypt.hash(password, saltRounds, function(err, hash) {
-        console.log(hash);
+    hashPassword = bcrypt.hash(password, saltRounds, function(err, hash) {
+        return(hash);
     });
     database.users.push({
         id: '125',
         name: name,
         email: email,
-        password: password,
+        password: hashPassword,
         entries: 0,
         joined: new Date()
     })
