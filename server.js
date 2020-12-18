@@ -41,32 +41,43 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
-    let hash = bcrypt.hash(database.users[0].password, 10, function(err, hash) {
-        return(hash);
-    }); 
-    bcrypt.compare(req.body.password, hash, function(err, result) {
-        // result == true
-        res.json('success logging in');
-        //if(err) {res.status(404).json('error logging in')}
-        //if(err) {console.log(err)}
-    });
-    // if(req.body.email === database.users[0].email &&
-    //     req.body.password === database.users[0].password) {
-    //     //res.json('success');
-    // } else {
-    //     res.status(404).json('error logging in')
-    // }
+    // let hash = bcrypt.hash(database.users[0].password, 10, function(err, hash) {
+    //     return(hash);
+    // }); 
+    // bcrypt.compare(req.body.password, hash, function(err, result) {
+    //     // result == true
+    //     res.json(database.users[0]);
+    //     //if(err) {res.status(404).json('error logging in')}
+    //     //if(err) {console.log(err)}
+    // });
+    // database.users.map((element) => {
+    //     //console.log(element.email);
+    //     const { email, password } = element;
+    //     if(element.email === email && element.password === password)
+    //         {return res.json(element)} else {
+    //           return res.status(404).json('error logging in - no such user in database')  
+    //         }
+    // })
+    if(req.body.email === database.users[0].email &&
+        req.body.password === database.users[0].password) {
+        res.json(database.users[0]);
+        //res.json('success');
+    } else {
+        //console.log('error loggin in');
+        res.status(404).json('error logging in - no such user in database');
+    }
 })
 
 app.post('/register', (req, res) => {
     const { name, email, password } = req.body;
-    const saltRounds = 10;
+    //const saltRounds = 10;
     // hashPassword = bcrypt.hash(password, saltRounds, function(err, hash) {
     //     return(hash);
     // });
     database.users.push({
         id: '125',
         name: name,
+        password: password,
         email: email,
         entries: 0,
         joined: new Date()
