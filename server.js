@@ -3,6 +3,8 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import cors from 'cors';
 import knex from 'knex';
+import handleRegister from './controllers/register.js';
+import handleSignIn from './controllers/signin.js';
 
 const db = knex({
     client: 'pg',
@@ -12,69 +14,33 @@ const db = knex({
         password: 'kiluk',
         database: 'smart-brain'
     }
-})
+});
 
-db.select('*').from('users').then(data => console.log(data))
+db.select('*').from('login')
+    .then(data =>{ 
+        console.log(data)
+        db('login').count('* as loginsCount: ')
+            .then(console.log)}
+    )
+
+db.select('*').from('users')
+    .then(data =>{ 
+        console.log(data)
+        db('users').count('* as usersCount: ')
+            .then(console.log)}
+    )    
+
 const app = express();
-
 app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    db.select('*').from('users').then(data => {
-        res.send(data);
-    })
-})
+    db.select('*').from('users').then(data => {res.send(data)})
+});
 
-app.post('/signin', (req, res) => {
-    const { email, password } = req.body;
-    //const salt = bcrypt.genSaltSync(10);
-    //const hash = bcrypt.hashSync(password, salt);
-
-    db.select('email','hash').from('login').where({ email })
-    .then((data) => {
-       const isValid = bcrypt.compareSync(password, data[0].hash);
-       if(isValid) {
-           return db.select('*').from('users').where('email', '=', email)
-            .then(user => {
-                res.json(user[0])
-            })
-            .catch(err => res.status(400).json('unable to get user'))
-       } else {
-           res.status(400).json('wrong credentials')
-       }
-    })
-    .catch(err => res.status(400).json('wrong credentials'))
-})
-
-app.post('/register', (req, res) => {
-    const { email, password, name } = req.body;
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
-    db.transaction(trx => {
-        trx.insert({
-            hash: hash,
-            email: email
-        })
-        .into('login')
-        .returning('email')
-        .then(loginEmail => {
-            return trx('users')
-            .returning('*')
-            .insert({ 
-                email: loginEmail[0],
-                name: name,
-                joined: new Date()
-            })
-            .then(user => {
-                res.json(user[0]);
-            })
-        })
-        .then(trx.commit)
-        .catch(trx.rollback)
-    })
-    .catch(err => res.status(400).json('unable to register'))
-})
+//poniżej "dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
+app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
+app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
 
 app.get('/profile/:id', (req, res) => {
     const { id } = req.params;
@@ -85,7 +51,7 @@ app.get('/profile/:id', (req, res) => {
         user.length ? res.json(user[0]) : res.status(400).json('no such user');
     })
     .catch(err => response.status(400).json("error getting profile"));
-})
+});
 
 app.put('/image', (req, res) => {
     const { id } = req.body;
@@ -94,14 +60,13 @@ app.put('/image', (req, res) => {
     .returning('entries')
     .then(entries => res.json(entries[0]))
     .catch(err => res.status(400).json('error getting entries data'))
-})
+});
 
 app.listen(3000, () => { 
     console.log('app is running on port 3000');
-})
+});
 
 /* 
-
 endPoints:
 
 / --> res = this is working
@@ -111,8 +76,7 @@ endPoints:
 /image --> PUT --> user
 
 */
-
-// db mockup!
+// old db mockup!
 // const database = {
 //     users: [
 //         {
