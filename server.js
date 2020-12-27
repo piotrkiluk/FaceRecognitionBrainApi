@@ -27,8 +27,8 @@ app.listen(3000, () => { console.log('app is running on port 3000') });
 //poniżej dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
 app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
 app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
-app.get('/profile/:id', (req, res) => { handleProfileGet(req, res) });
-app.put('/image', (req, res) => { handleImage(req, res) });
+app.get('/profile/:id', (req, res) => { handleProfileGet(req, res, db) });
+app.put('/image', (req, res) => { handleImage(req, res, db) });
 
 /* 
 endPoints:
