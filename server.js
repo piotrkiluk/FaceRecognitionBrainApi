@@ -5,7 +5,7 @@ import knex from 'knex';
 import handleRegister from './controllers/register.js';
 import handleSignIn from './controllers/signin.js';
 import handleProfileGet from './controllers/profile.js';
-import handleImage from './controllers/image.js';
+import {handleImage, handleApiCall} from './controllers/image.js';
 
 const app = express();
 app.use(express.json());
@@ -21,13 +21,13 @@ const db = knex({
     }
 });
 
-app.get('/', (req, res) => { db.select('*').from('users').then(data => {res.send(data)}) });
 app.listen(3000, () => { console.log('app is running on port 3000') });
-
+app.get('/', (req, res) => { db.select('*').from('users').then(data => {res.send(data)}) });
 //poniżej dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
 app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
 app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
 app.get('/profile/:id', (req, res) => { handleProfileGet(req, res, db) });
+app.post('/imageUrl', (req, res) => { handleApiCall(req, res) });
 app.put('/image', (req, res) => { handleImage(req, res, db) });
 
 /* 
@@ -77,7 +77,7 @@ const database = {
     ],
     login: [
         {
-            id: '987',
+            id: '123',
             hash: '',
             email: 'john@gmail.com'
         }
