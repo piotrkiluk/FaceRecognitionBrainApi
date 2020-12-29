@@ -1,7 +1,7 @@
 const handleSignIn = (req, res, db, bcrypt) => {
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.status(400).json('incorrect from submission');
+        return res.status(400).json('incorrect from submission - provide correct email and password');
     }
     db.select('email','hash').from('login').where({ email })
     .then((data) => { 
