@@ -8,14 +8,14 @@
 // import {handleImage, handleApiCall} from './controllers/image.js';
 
 const express = require ('express');
-const bcrypt = require ('bcrypt');
+// const bcrypt = require ('bcrypt');
 const cors = require ('cors');
 const knex = require ('knex');
-const handleRegister = require ('./controllers/register.js');
-const handleSignIn = require ('./controllers/signin.js');
-const handleProfileGet = require ('./controllers/profile.js');
-const handleImage = require ('./controllers/image.js');
-const handleApiCall = require ('./controllers/image.js');
+// const handleRegister = require ('./controllers/register.js');
+// const handleSignIn = require ('./controllers/signin.js');
+// const handleProfileGet = require ('./controllers/profile.js');
+// const handleImage = require ('./controllers/image.js');
+// const handleApiCall = require ('./controllers/image.js');
 
 const app = express();
 app.use(express.json());
@@ -34,11 +34,17 @@ const db = knex({
 app.listen(process.env.PORT || 3000, () => { console.log(`app is running on port ${process.env.PORT}`) });
 app.get('/', (req, res) => { res.send(`it's dupa`)});
 //poniżej dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
-app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
-app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
-app.get('/profile/:id', (req, res) => { handleProfileGet(req, res, db) });
-app.post('/imageUrl', (req, res) => { handleApiCall(req, res) });
-app.put('/image', (req, res) => { handleImage(req, res, db) });
+app.post('/signin', (req, res) => { res.send(`it's signin`)});
+app.post('/register', (req, res) => { res.send(`it's register`)});
+app.get('/profile/:id', (req, res) => { res.send(`it's profile/:id`)});
+app.post('/imageUrl', (req, res) => { res.send(`it's imageUrl`)});
+app.put('/image', (req, res) => { res.send(`it's image`)});
+
+// app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
+// app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
+// app.get('/profile/:id', (req, res) => { handleProfileGet(req, res, db) });
+// app.post('/imageUrl', (req, res) => { handleApiCall(req, res) });
+// app.put('/image', (req, res) => { handleImage(req, res, db) });
 
 /* 
 endPoints:
