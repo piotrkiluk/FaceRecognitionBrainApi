@@ -11,11 +11,10 @@ const express = require ('express');
 const bcrypt = require ('bcrypt');
 const cors = require ('cors');
 const knex = require ('knex');
-// const handleRegister = require ('./controllers/register.js');
+const register = require ('./controllers/register.js');
 const signin = require ('./controllers/signin.js');
-// const handleProfileGet = require ('./controllers/profile.js');
-// const handleImage = require ('./controllers/image.js');
-// const handleApiCall = require ('./controllers/image.js');
+const profile = require ('./controllers/profile.js');
+const image = require ('./controllers/image.js');
 
 const app = express();
 app.use(express.json());
@@ -35,16 +34,15 @@ app.listen(process.env.PORT || 3000, () => { console.log(`app is running on port
 app.get('/', (req, res) => { res.json(`it's working`)});
 //poniżej dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
 app.post('/signin', (req, res) => { signin.handleSignIn(req, res, db, bcrypt) });
+app.post('/register', (req, res) => { register.handleRegister(req, res, db, bcrypt) });
+app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db) });
+app.post('/imageUrl', (req, res) => { image.handleApiCall(req, res) });
+app.put('/image', (req, res) => { image.handleImage(req, res, db) });
+
 // app.post('/register', (req, res) => { res.json(`it's register`)});
 // app.get('/profile/:id', (req, res) => { res.json(`it's profile/:id`)});
 // app.post('/imageUrl', (req, res) => { res.json(`it's imageUrl`)});
 // app.put('/image', (req, res) => { res.json(`it's image`)});
-
-// app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
-// app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
-// app.get('/profile/:id', (req, res) => { handleProfileGet(req, res, db) });
-// app.post('/imageUrl', (req, res) => { handleApiCall(req, res) });
-// app.put('/image', (req, res) => { handleImage(req, res, db) });
 
 /* 
 endPoints:
