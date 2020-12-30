@@ -35,10 +35,10 @@ app.listen(process.env.PORT || 3000, () => { console.log(`app is running on port
 app.get('/', (req, res) => { res.json(`it's working`)});
 //poniżej dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
 app.post('/signin', (req, res) => { signin.handleSignIn(req, res, db, bcrypt) });
-app.post('/register', (req, res) => { res.json(`it's register`)});
-app.get('/profile/:id', (req, res) => { res.json(`it's profile/:id`)});
-app.post('/imageUrl', (req, res) => { res.json(`it's imageUrl`)});
-app.put('/image', (req, res) => { res.json(`it's image`)});
+// app.post('/register', (req, res) => { res.json(`it's register`)});
+// app.get('/profile/:id', (req, res) => { res.json(`it's profile/:id`)});
+// app.post('/imageUrl', (req, res) => { res.json(`it's imageUrl`)});
+// app.put('/image', (req, res) => { res.json(`it's image`)});
 
 // app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
 // app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
