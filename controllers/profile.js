@@ -9,4 +9,7 @@ const handleProfileGet = (req, res, db) => {
     .catch(err => response.status(400).json("error getting profile"))
 }
 
+// module.exports ={
+//     handleProfileGet: handleProfileGet
+// };
 export default handleProfileGet;

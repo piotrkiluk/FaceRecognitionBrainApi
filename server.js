@@ -1,11 +1,21 @@
-import express from 'express';
-import bcrypt from 'bcrypt';
-import cors from 'cors';
-import knex from 'knex';
-import handleRegister from './controllers/register.js';
-import handleSignIn from './controllers/signin.js';
-import handleProfileGet from './controllers/profile.js';
-import {handleImage, handleApiCall} from './controllers/image.js';
+// import express from 'express';
+// import bcrypt from 'bcrypt';
+// import cors from 'cors';
+// import knex from 'knex';
+// import handleRegister from './controllers/register.js';
+// import handleSignIn from './controllers/signin.js';
+// import handleProfileGet from './controllers/profile.js';
+// import {handleImage, handleApiCall} from './controllers/image.js';
+
+const express = require ('express');
+const bcrypt = require ('bcrypt');
+const cors = require ('cors');
+const knex = require ('knex');
+const handleRegister = require ('./controllers/register.js');
+const handleSignIn = require ('./controllers/signin.js');
+const handleProfileGet = require ('./controllers/profile.js');
+const handleImage = require ('./controllers/image.js');
+const handleApiCall = require ('./controllers/image.js');
 
 const app = express();
 app.use(express.json());
