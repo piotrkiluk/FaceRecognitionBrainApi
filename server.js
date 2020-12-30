@@ -31,7 +31,7 @@ const db = knex({
     }
 });
 
-app.listen(3000, () => { console.log('app is running on port 3000') });
+app.listen(process.env.PORT || 3000, () => { console.log(`app is running on port ${process.env.PORT}`) });
 app.get('/', (req, res) => { db.select('*').from('users').then(data => {res.send(data)}) });
 //poniżej dependency injection; przesyłamy do handleRegister oprócz req/res również bazę i szyfrowanie"
 app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt) });
