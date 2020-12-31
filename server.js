@@ -1,3 +1,5 @@
+//Extremly proud of myself after 3 months of studying programming I have finished this project with server and db deployed on Heroku and front deployed on gitHubPages. Projects published on gitHub are complete and works properly.
+
 // import express from 'express';
 // import bcrypt from 'bcrypt';
 // import cors from 'cors';
@@ -6,6 +8,7 @@
 // import handleSignIn from './controllers/signin.js';
 // import handleProfileGet from './controllers/profile.js';
 // import {handleImage, handleApiCall} from './controllers/image.js';
+
 
 const express = require ('express');
 const bcrypt = require ('bcrypt');
